@@ -2,7 +2,8 @@ import scrapy
 
 
 class QuotesSpider(scrapy.Spider):
-    name = "quotes"
+    def __init__(self):
+        self.name = "quotes"
 
     def start_requests(self):
         urls = [
