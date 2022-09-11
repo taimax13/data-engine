@@ -10,30 +10,30 @@ matplotlib.use('TkAgg')
 class Connect:
     def __init__(self, file_name):
         self.file_name = file_name
-        self.sb = seaborn.load_dataset(file_name)
+        self.sd = seaborn.load_dataset(file_name)
         self.pd = pd.read_csv(file_name)
 
     def get_table(self):
-        return self.sb.head()
+        return self.pd.head()
 
     def get_data_types(self):
-        return self.sb.dtypes
+        return self.pd.dtypes
 
     def get_table_info(self):
-        return self.sb.info()
+        return self.pd.info()
 
     def get_table_info(self):
-        return self.sb.describe()
+        return self.pd.describe()
 
     def get_headers(self):
-        return list(self.sb.columns)
+        return list(self.pd.columns)
 
     def grouped_first_order_plot(self):
         headers = self.get_headers()
         for col_name in headers:
             self.group_by(col_name)
             try:
-                dp = seaborn.displot(data=self.sb, x=col_name)
+                dp = seaborn.displot(data=self.pd, x=col_name)
                 plt.plot = dp
                 plt.show()
             except:
@@ -51,7 +51,7 @@ class Connect:
             headers.remove(col_name)
 
     def group_by(self, name):
-        return list(self.sb.groupby(name))
+        return list(self.pd.groupby(name))
 
     def correlation_groped(self, cor1, cor2):
         ax = self.pd.hist(column=cor1, by=cor2, bins=3, sharex=True, sharey=True)
@@ -59,7 +59,7 @@ class Connect:
         plt.show()
 
     def count_in_field(self, name):
-        return self.sb[name].value_counts()
+        return self.pd[name].value_counts()
 
     def select_distinct(self, col1, col2):
         q = """SELECT DISTINCT {}, {} FROM df;""".format(col1, col2)
@@ -67,8 +67,8 @@ class Connect:
         return pysqldf(q)
 
     def view_pie_per_colonm(self):
-        for key in self.sb.keys():
-            q=self.sb[key].value_counts()
+        for key in self.pd.keys():
+            q=self.pd[key].value_counts()
             print("###### {} #######".format(key))
             #print(q.max())
             #print(q.min())
@@ -79,23 +79,22 @@ class Connect:
 
 
     def print_info(self):
-
-        #self.sb["share_fare"] = (self.sb["fare"] / self.sb["class"])
-        self.sb.head()
-        q=self.sb.plot.scatter(x="class", y="age", alpha=0.5)
-        plt.plot=q
-        plt.show()
-        #plot=self.sb.plot()
-        #plt.plot=plot
+        self.pd.head()
+        print(self.get_table_info())
+        #q=self.pd.plot.scatter(x="id", y="age", alpha=0.5)
+        #plt.plot=q
         #plt.show()
-        #self.view_pie_per_colonm()
-        #self.view_pie_per_colonm()
+        plot=self.pd.plot()
+        plt.plot=plot
+        plt.show()
+        self.view_pie_per_colonm()
 
 
-        groupby = self.pd.groupby(['age', 'sex'])['alive']#, 'sex'])['alive']#.value_counts()
-        print(self.pd.describe())
 
-        #df = groupby.filter(lambda x: x['age'].mean() > 30)
+       # groupby = self.pd.groupby(['age', 'sex'])['alive']#, 'sex'])['alive']#.value_counts()
+       # print(self.pd.describe())
+
+       # df = groupby.filter(lambda x: x['age'])
         #print(groupby.keys())
 
 
@@ -103,19 +102,18 @@ class Connect:
         #q = """SELECT DISTINCT age, fare FROM df;"""
         #pysqldf = lambda q: sqldf(q, globals())
         #a_df = pysqldf(q)
-        # print(self.grouped_first_order()); - done by plot
-        # print(self.correlation_first_order()) -done by hist
-        # self.titanic_sb.groupby('embark_town').agg({'age': min, 'fare': max})
+
+        self.pd.groupby('embark_town').agg({'age': min, 'fare': max})
         ##visualisation
 
-        # print(ax)
+        #print(ax)
 
     # print(self.group_by("age"))
     # print(self.count_in_field("age"))
     # self.print_table()
     # self.print_table_info()
     # Use a breakpoint in the code line below to debug your script.
-    # print(self.titanic_sb.info())
+    # print(self.titanic_pd.info())
     # print(self.titanic_pd.info())
     # print(self.is_alive())
 

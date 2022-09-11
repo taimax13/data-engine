@@ -11,5 +11,6 @@ import quote_spider as spider
 if __name__ == '__main__':
     connect = connect.Connect('titanic')
     connect.print_info()
-    spider.QuotesSpider.parse(spider.QuotesSpider.start_request)
+    #qs=spider.QuotesSpider()
+    #qs.parse(qs.start_requests())
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
